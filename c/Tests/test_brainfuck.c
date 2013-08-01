@@ -2,23 +2,31 @@
 
 #include "brainfuck.h"
 
-void test_init(void)
+void test_new(void)
 {
-	char buff[1];
+	BFI *bfi;
 	
-	buff[0] = 1;
+	bfi = brainfuck_new(0);
 	
-	brainfuck_init( buff, sizeof(buff) );
-	
-	PCU_ASSERT_EQUAL(0, buff[0]);
+	PCU_ASSERT_PTR_EQUAL(NULL, bfi);
 }
 
-PCU_Suite *init_suite(void)
+void test_delete(void)
+{
+	int bfi_ret;
+	
+	bfi_ret = brainfuck_delete(NULL);
+	
+	PCU_ASSERT_EQUAL(BFI_ERROR, bfi_ret);
+}
+
+PCU_Suite *NewDeleteTest_suite(void)
 {
 	static PCU_Test tests[] = {
-		PCU_TEST(test_init),
+		PCU_TEST(test_new),
+		PCU_TEST(test_delete),
 	};
-	static PCU_Suite suite = { "init-test", tests, ( sizeof(tests) / sizeof(tests[0]) ) };
+	static PCU_Suite suite = { "NewDeleteTest", tests, ( sizeof(tests) / sizeof(tests[0]) ) };
 	return &suite;
 }
 
