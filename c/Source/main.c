@@ -3,11 +3,12 @@
 
 int main(int argc, char *argv[])
 {
-	char buff[256];
+	BFI bfi;
 	
 	printf("brainfuck\n");
 	
-	brainfuck_init(buff, sizeof(buff));
+	bfi = brainfuck_new(256);
+	brainfuck_delete(bfi);
 	
 	return 0;
 }

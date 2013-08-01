@@ -1,7 +1,12 @@
+#include <stdio.h>
 #include "brainfuck.h"
 
-void brainfuck_init(char *pbuff, int buffsize)
+BFI *brainfuck_new(int tapesize)
 {
-	
+	return 1;
 }
 
+int brainfuck_delete(BFI bfi)
+{
+	return BFI_SUCCESS;
+}
