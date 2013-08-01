@@ -1,7 +1,7 @@
 CC = gcc
 
 CFLAGS = -Wall -W
-INCLUDES = -I/usr/local/include/PCUnit -I../Source
+INCLUDES = -I/usr/local/include -I../Source
 LFLAGS = -L/usr/local/lib -lpcunit
 
 TARGET = test_brainfuck.exe
