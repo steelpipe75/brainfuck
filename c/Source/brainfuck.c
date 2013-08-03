@@ -3,10 +3,10 @@
 
 BFI *brainfuck_new(int tapesize)
 {
-	return 1;
+	return NULL;
 }
 
 int brainfuck_delete(BFI bfi)
 {
-	return BFI_SUCCESS;
+	return BFI_ERROR;
 }
