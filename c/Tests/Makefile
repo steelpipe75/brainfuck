@@ -10,7 +10,7 @@ OBJS = main.o
 OBJS += test_brainfuck.o
 OBJS += brainfuck.o
 
-.PHONY: all clean test
+.PHONY: all clean test cov test-cov
 
 all: $(TARGET)
 
@@ -30,6 +30,16 @@ test: all
 
 clean:
 	rm -f *.o $(TARGET)
+
+cov: 
+	make CFLAGS="$(CFLAGS) -fprofile-arcs -ftest-coverage" LDFLAGS="$(LDFLAGS) -fprofile-arcs"
+
+test-cov:
+	make test
+	lcov -c -d . -o lcov.info
+	lcov -r lcov.info *.h -o lcov-html.info
+	genhtml -o html lcov-html.info
+
 
 main.o : 
 test_brainfuck.o : ../Source/brainfuck.h

@@ -2,3 +2,7 @@
 *.BAK
 *.o
 *.exe
+*.gcda
+*.gcno
+c/Tests/html
+*.info
