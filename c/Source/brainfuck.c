@@ -12,6 +12,7 @@ BFI brainfuck_new(int tapesize)
 	
 	if(0 != tapesize){
 		bfi = malloc(sizeof(BFINTERPRETER));
+		bfi->tapesize = tapesize;
 	}
 	
 	return bfi;
@@ -32,6 +33,15 @@ int brainfuck_delete(BFI bfi)
 extern int brainfuck_get_tapesize(BFI bfi, int *ptr_tapesize)
 {
 	int Ret = BFI_ERROR;
+	int tapesize;
+	
+	if(NULL != bfi){
+		tapesize = bfi->tapesize;
+		if(0 != tapesize){
+			*ptr_tapesize = tapesize;
+			Ret = BFI_SUCCESS;
+		}
+	}
 	
 	return Ret;
 }
