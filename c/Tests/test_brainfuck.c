@@ -8,9 +8,11 @@ void test_NewDelete(void)
 	int bfi_ret;
 	
 	bfi = brainfuck_new(0);
-	bfi_ret = brainfuck_delete(NULL);
 	
 	PCU_ASSERT_PTR_EQUAL(NULL, bfi);
+	
+	bfi_ret = brainfuck_delete(bfi);
+	
 	PCU_ASSERT_EQUAL(BFI_ERROR, bfi_ret);
 }
 
