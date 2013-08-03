@@ -31,3 +31,6 @@ test: all
 clean:
 	rm -f *.o $(TARGET)
 
+main.o : 
+test_brainfuck.o : ../Source/brainfuck.h
+brainfuck.o : ../Source/brainfuck.h

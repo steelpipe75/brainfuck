@@ -22,3 +22,5 @@ $(TARGET): $(OBJS)
 clean:
 	rm -f *.o $(TARGET)
 
+main.o: brainfuck.h
+brainfuck.o: brainfuck.h
