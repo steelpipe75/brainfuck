@@ -6,9 +6,9 @@ typedef struct BFINTERPRETER{
 }BFINTERPRETER;
 
 
-BFI *brainfuck_new(int tapesize)
+BFI brainfuck_new(int tapesize)
 {
-	BFI *bfi = NULL;
+	BFI bfi = NULL;
 	
 	if(0 != tapesize){
 		bfi = malloc(sizeof(BFINTERPRETER));
