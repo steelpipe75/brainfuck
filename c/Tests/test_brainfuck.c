@@ -40,3 +40,55 @@ PCU_Suite *NewDeleteTest_suite(void)
 	return &suite;
 }
 
+void test_GetTapesize_error(void)
+{
+	BFI *bfi;
+	int bfi_ret;
+	int tapesize;
+	
+	bfi = brainfuck_new(0);
+	
+	tapesize = 0;
+	
+	bfi_ret = brainfuck_get_tapesize(bfi, &tapesize);
+	
+	PCU_ASSERT_EQUAL(BFI_ERROR, bfi_ret);
+	PCU_ASSERT_EQUAL(0, tapesize);
+	
+	tapesize = 256;
+	
+	bfi_ret = brainfuck_get_tapesize(bfi, &tapesize);
+	
+	PCU_ASSERT_EQUAL(BFI_ERROR, bfi_ret);
+	PCU_ASSERT_EQUAL(256, tapesize);
+	
+	bfi_ret = brainfuck_delete(bfi);
+}
+
+void test_GetTapesize(void)
+{
+	BFI *bfi;
+	int bfi_ret;
+	int tapesize;
+	int test_tapesize;
+	
+	test_tapesize = 256;
+	
+	bfi = brainfuck_new(test_tapesize);
+	
+	PCU_ASSERT_EQUAL(BFI_SUCCESS, bfi_ret);
+	PCU_ASSERT_EQUAL(test_tapesize, tapesize);
+	
+	bfi_ret = brainfuck_delete(bfi);
+}
+
+PCU_Suite *GetTapesizeTest_suite(void)
+{
+	static PCU_Test tests[] = {
+		PCU_TEST(test_GetTapesize_error),
+		PCU_TEST(test_GetTapesize),
+	};
+	static PCU_Suite suite = { "NewDeleteTest", tests, ( sizeof(tests) / sizeof(tests[0]) ) };
+	return &suite;
+}
+

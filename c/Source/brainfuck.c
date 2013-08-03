@@ -28,3 +28,10 @@ int brainfuck_delete(BFI bfi)
 	
 	return Ret;
 }
+
+extern int brainfuck_get_tapesize(BFI bfi, int *ptr_tapesize)
+{
+	int Ret = BFI_ERROR;
+	
+	return Ret;
+}

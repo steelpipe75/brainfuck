@@ -2,11 +2,13 @@
 #include <stdio.h>
 
 PCU_Suite *NewDeleteTest_suite(void);
+PCU_Suite *GetTapesizeTest_suite(void);
 
 int main()
 {
 	const PCU_SuiteMethod suites[] = {
 		NewDeleteTest_suite,
+		GetTapesizeTest_suite,
 	};
 	
 	PCU_set_putchar(putchar);
