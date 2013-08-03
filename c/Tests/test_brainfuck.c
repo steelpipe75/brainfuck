@@ -76,6 +76,8 @@ void test_GetTapesize(void)
 	
 	bfi = brainfuck_new(test_tapesize);
 	
+	bfi_ret = brainfuck_get_tapesize(bfi, &tapesize);
+	
 	PCU_ASSERT_EQUAL(BFI_SUCCESS, bfi_ret);
 	PCU_ASSERT_EQUAL(test_tapesize, tapesize);
 	
