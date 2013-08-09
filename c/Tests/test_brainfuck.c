@@ -90,7 +90,7 @@ PCU_Suite *GetTapesizeTest_suite(void)
 		PCU_TEST(test_GetTapesize_error),
 		PCU_TEST(test_GetTapesize),
 	};
-	static PCU_Suite suite = { "NewDeleteTest", tests, ( sizeof(tests) / sizeof(tests[0]) ) };
+	static PCU_Suite suite = { "GetTapesizeTest", tests, ( sizeof(tests) / sizeof(tests[0]) ) };
 	return &suite;
 }
 
