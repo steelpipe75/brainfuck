@@ -94,3 +94,62 @@ PCU_Suite *GetTapesizeTest_suite(void)
 	return &suite;
 }
 
+void test_GetTapeptr_error(void)
+{
+	BFI *bfi;
+	int bfi_ret;
+	const char *tapeptr;
+	char c;
+	
+	bfi = brainfuck_new(0);
+	
+	tapeptr = NULL;
+	
+	bfi_ret = brainfuck_get_tapeptr(bfi, &tapeptr);
+	
+	PCU_ASSERT_EQUAL(BFI_ERROR, bfi_ret);
+	PCU_ASSERT_PTR_EQUAL(NULL, tapeptr);
+	
+	tapeptr = &c;
+	
+	bfi_ret = brainfuck_get_tapeptr(bfi, &tapeptr);
+	
+	PCU_ASSERT_EQUAL(BFI_ERROR, bfi_ret);
+	PCU_ASSERT_PTR_EQUAL(&c, tapeptr);
+	
+	bfi_ret = brainfuck_delete(bfi);
+}
+
+void test_GetTapeptr(void)
+{
+	BFI *bfi;
+	int bfi_ret;
+	int tapesize;
+	int test_tapesize;
+	const char *tapeptr;
+	char c;
+	
+	test_tapesize = 256;
+	
+	bfi = brainfuck_new(test_tapesize);
+	
+	tapeptr = &c;
+	
+	bfi_ret = brainfuck_get_tapeptr(bfi, &tapeptr);
+	
+	PCU_ASSERT_EQUAL(BFI_SUCCESS, bfi_ret);
+	PCU_ASSERT_PTR_NOT_EQUAL(&c, tapeptr);
+	
+	bfi_ret = brainfuck_delete(bfi);
+}
+
+PCU_Suite *GetTapeptrTest_suite(void)
+{
+	static PCU_Test tests[] = {
+		PCU_TEST(test_GetTapeptr_error),
+		PCU_TEST(test_GetTapeptr),
+	};
+	static PCU_Suite suite = { "GetTapeptrTest", tests, ( sizeof(tests) / sizeof(tests[0]) ) };
+	return &suite;
+}
+

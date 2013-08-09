@@ -9,5 +9,6 @@ typedef struct BFINTERPRETER* BFI;
 extern BFI brainfuck_new(int tapesize);
 extern int brainfuck_delete(BFI bfi);
 extern int brainfuck_get_tapesize(BFI bfi, int *ptr_tapesize);
+extern int brainfuck_get_tapeptr(BFI bfi, const char **);
 
 #endif /* BRAINFUCK_H_INCLUDED */

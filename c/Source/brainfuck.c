@@ -3,16 +3,20 @@
 
 typedef struct BFINTERPRETER{
 	int tapesize;
+	char *tapeptr;
 }BFINTERPRETER;
 
 
 BFI brainfuck_new(int tapesize)
 {
 	BFI bfi = NULL;
+	char *tapeptr;
 	
 	if(0 != tapesize){
 		bfi = malloc(sizeof(BFINTERPRETER));
 		bfi->tapesize = tapesize;
+		tapeptr = malloc(sizeof(char)*tapesize);
+		bfi->tapeptr = tapeptr;
 	}
 	
 	return bfi;
@@ -21,8 +25,13 @@ BFI brainfuck_new(int tapesize)
 int brainfuck_delete(BFI bfi)
 {
 	int Ret = BFI_ERROR;
+	char *tapeptr;
 	
 	if(NULL != bfi){
+		tapeptr = bfi->tapeptr;
+		if(NULL != tapeptr){
+			free(tapeptr);
+		}
 		free(bfi);
 		Ret = BFI_SUCCESS;
 	}
@@ -39,6 +48,22 @@ extern int brainfuck_get_tapesize(BFI bfi, int *ptr_tapesize)
 		tapesize = bfi->tapesize;
 		if(0 != tapesize){
 			*ptr_tapesize = tapesize;
+			Ret = BFI_SUCCESS;
+		}
+	}
+	
+	return Ret;
+}
+
+int brainfuck_get_tapeptr(BFI bfi, const char **ptr_tapeptr)
+{
+	int Ret = BFI_ERROR;
+	const char *tapeptr;
+	
+	if(NULL != bfi){
+		tapeptr = bfi->tapeptr;
+		if(0 != tapeptr){
+			*ptr_tapeptr = tapeptr;
 			Ret = BFI_SUCCESS;
 		}
 	}
