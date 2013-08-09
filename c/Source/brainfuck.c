@@ -15,7 +15,7 @@ BFI brainfuck_new(int tapesize)
 	if(0 != tapesize){
 		bfi = malloc(sizeof(BFINTERPRETER));
 		bfi->tapesize = tapesize;
-		tapeptr = malloc(sizeof(char)*tapesize);
+		tapeptr = calloc(tapesize,sizeof(char));
 		bfi->tapeptr = tapeptr;
 	}
 	

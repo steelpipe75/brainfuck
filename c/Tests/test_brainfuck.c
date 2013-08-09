@@ -20,10 +20,31 @@ void test_NewDelete(void)
 {
 	BFI *bfi;
 	int bfi_ret;
+	int test_tapesize;
+	int tapesize;
+	const char *tapeptr;
+	char c;
+	int i;
 	
-	bfi = brainfuck_new(256);
+	test_tapesize = 256;
+	
+	bfi = brainfuck_new(test_tapesize);
 	
 	PCU_ASSERT_PTR_NOT_EQUAL(NULL, bfi);
+	
+	bfi_ret = brainfuck_get_tapesize(bfi, &tapesize);
+	
+	PCU_ASSERT_EQUAL(BFI_SUCCESS, bfi_ret);
+	PCU_ASSERT_EQUAL(test_tapesize, tapesize);
+	
+	bfi_ret = brainfuck_get_tapeptr(bfi, &tapeptr);
+	
+	PCU_ASSERT_EQUAL(BFI_SUCCESS, bfi_ret);
+	PCU_ASSERT_PTR_NOT_EQUAL(&c, tapeptr);
+	
+	for(i = 0; i < tapesize; i++){
+		PCU_ASSERT_EQUAL_MESSAGE(0, tapeptr[i], PCU_format("i=%d",i));
+	}
 	
 	bfi_ret = brainfuck_delete(bfi);
 	
