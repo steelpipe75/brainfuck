@@ -2,19 +2,41 @@
 
 #include "brainfuck.h"
 
+typedef struct NEW_DELETE_TEST_DATA{
+	const char *ptr_program;
+	int programsize;
+	int tapesize;
+}NEW_DELETE_TEST_DATA;
+
+#define NEW_DELETE_TEST(x,y)	{(x), sizeof(x)/sizeof(x[0]), y}
+
 void test_NewDelete_error(void)
 {
 	BFI *bfi;
 	int bfi_ret;
-	char program[] = "+";
 	
-	bfi = brainfuck_new(program, sizeof(program)/sizeof(program[0]), 0);
+	int i;
 	
-	PCU_ASSERT_PTR_EQUAL(NULL, bfi);
+	static const char program1[] = "+";
+	static const char program2[] = "[";
+	static const char program3[] = "[]]";
 	
-	bfi_ret = brainfuck_delete(bfi);
+	static const NEW_DELETE_TEST_DATA programs[] = {
+		NEW_DELETE_TEST(program1,0),
+		NEW_DELETE_TEST(program2,256),
+		NEW_DELETE_TEST(program3,256),
+	};
+	int program_num = sizeof(programs)/sizeof(programs[0]);
 	
-	PCU_ASSERT_EQUAL(BFI_ERROR, bfi_ret);
+	for(i = 0; i < program_num; i++){
+		bfi = brainfuck_new(programs[i].ptr_program, programs[i].programsize, programs[i].tapesize);
+		
+		PCU_ASSERT_PTR_EQUAL_MESSAGE(NULL, bfi, PCU_format("i=%d",i));
+		
+		bfi_ret = brainfuck_delete(bfi);
+		
+		PCU_ASSERT_EQUAL_MESSAGE(BFI_ERROR, bfi_ret, PCU_format("i=%d",i));
+	}
 }
 
 void test_NewDelete(void)

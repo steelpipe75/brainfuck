@@ -11,12 +11,17 @@ BFI brainfuck_new(const char *ptr_program, int programsize, int tapesize)
 {
 	BFI bfi = NULL;
 	char *tapeptr;
+	int Ret;
 	
 	if(0 != tapesize){
-		bfi = malloc(sizeof(BFINTERPRETER));
-		bfi->tapesize = tapesize;
-		tapeptr = calloc(tapesize,sizeof(char));
-		bfi->tapeptr = tapeptr;
+		Ret = brainfuck_check_programbracket(ptr_program, programsize);
+		
+		if(BFI_SUCCESS == Ret){
+			bfi = malloc(sizeof(BFINTERPRETER));
+			bfi->tapesize = tapesize;
+			tapeptr = calloc(tapesize,sizeof(char));
+			bfi->tapeptr = tapeptr;
+		}
 	}
 	
 	return bfi;
