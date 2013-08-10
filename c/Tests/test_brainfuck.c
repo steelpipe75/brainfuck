@@ -6,8 +6,9 @@ void test_NewDelete_error(void)
 {
 	BFI *bfi;
 	int bfi_ret;
+	char program[] = "+";
 	
-	bfi = brainfuck_new(0);
+	bfi = brainfuck_new(program, sizeof(program)/sizeof(program[0]), 0);
 	
 	PCU_ASSERT_PTR_EQUAL(NULL, bfi);
 	
@@ -25,10 +26,11 @@ void test_NewDelete(void)
 	const char *tapeptr;
 	char c;
 	int i;
+	char program[] = "+";
 	
 	test_tapesize = 256;
 	
-	bfi = brainfuck_new(test_tapesize);
+	bfi = brainfuck_new(program, sizeof(program)/sizeof(program[0]), test_tapesize);
 	
 	PCU_ASSERT_PTR_NOT_EQUAL(NULL, bfi);
 	
@@ -66,8 +68,9 @@ void test_GetTapesize_error(void)
 	BFI *bfi;
 	int bfi_ret;
 	int tapesize;
+	char program[] = "+";
 	
-	bfi = brainfuck_new(0);
+	bfi = brainfuck_new(program, sizeof(program)/sizeof(program[0]), 0);
 	
 	tapesize = 0;
 	
@@ -92,10 +95,11 @@ void test_GetTapesize(void)
 	int bfi_ret;
 	int tapesize;
 	int test_tapesize;
+	char program[] = "+";
 	
 	test_tapesize = 256;
 	
-	bfi = brainfuck_new(test_tapesize);
+	bfi = brainfuck_new(program, sizeof(program)/sizeof(program[0]), test_tapesize);
 	
 	bfi_ret = brainfuck_get_tapesize(bfi, &tapesize);
 	
@@ -121,8 +125,9 @@ void test_GetTapeptr_error(void)
 	int bfi_ret;
 	const char *tapeptr;
 	char c;
+	char program[] = "+";
 	
-	bfi = brainfuck_new(0);
+	bfi = brainfuck_new(program, sizeof(program)/sizeof(program[0]), 0);
 	
 	tapeptr = NULL;
 	
@@ -149,10 +154,11 @@ void test_GetTapeptr(void)
 	int test_tapesize;
 	const char *tapeptr;
 	char c;
+	char program[] = "+";
 	
 	test_tapesize = 256;
 	
-	bfi = brainfuck_new(test_tapesize);
+	bfi = brainfuck_new(program, sizeof(program)/sizeof(program[0]), test_tapesize);
 	
 	tapeptr = &c;
 	

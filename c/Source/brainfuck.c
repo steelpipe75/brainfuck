@@ -7,7 +7,7 @@ typedef struct BFINTERPRETER{
 }BFINTERPRETER;
 
 
-BFI brainfuck_new(int tapesize)
+BFI brainfuck_new(const char *ptr_program, int programsize, int tapesize)
 {
 	BFI bfi = NULL;
 	char *tapeptr;
