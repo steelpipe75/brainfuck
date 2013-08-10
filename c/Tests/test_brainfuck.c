@@ -174,3 +174,43 @@ PCU_Suite *GetTapeptrTest_suite(void)
 	return &suite;
 }
 
+void test_CheckProgramBracket_error(void)
+{
+	int bfi_ret;
+	static const char program1[] = "[";
+	static const char program2[] = "[]]";
+	
+	bfi_ret = brainfuck_check_programbracket( program1, sizeof(program1)/sizeof(program1[0]) );
+	
+	PCU_ASSERT_EQUAL(BFI_ERROR, bfi_ret);
+	
+	bfi_ret = brainfuck_check_programbracket( program2, sizeof(program2)/sizeof(program2[0]) );
+	
+	PCU_ASSERT_EQUAL(BFI_ERROR, bfi_ret);
+}
+
+void test_CheckProgramBracket(void)
+{
+	int bfi_ret;
+	static const char program1[] = "+";
+	static const char program2[] = "[]";
+	
+	bfi_ret = brainfuck_check_programbracket( program1, sizeof(program1)/sizeof(program1[0]) );
+	
+	PCU_ASSERT_EQUAL(BFI_SUCCESS, bfi_ret);
+	
+	bfi_ret = brainfuck_check_programbracket( program2, sizeof(program2)/sizeof(program2[0]) );
+	
+	PCU_ASSERT_EQUAL(BFI_SUCCESS, bfi_ret);
+}
+
+PCU_Suite *CheckProgramBracketTest_suite(void)
+{
+	static PCU_Test tests[] = {
+		PCU_TEST(test_CheckProgramBracket_error),
+		PCU_TEST(test_CheckProgramBracket),
+	};
+	static PCU_Suite suite = { "CheckProgramBracketTest", tests, ( sizeof(tests) / sizeof(tests[0]) ) };
+	return &suite;
+}
+

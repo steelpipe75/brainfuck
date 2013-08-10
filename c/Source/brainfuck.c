@@ -70,3 +70,39 @@ int brainfuck_get_tapeptr(BFI bfi, const char **ptr_tapeptr)
 	
 	return Ret;
 }
+
+int brainfuck_check_programbracket(const char *ptr_program, int programsize)
+{
+	int Ret = BFI_ERROR;
+	int count = 0;
+	int i;
+	
+	if(NULL != ptr_program){
+		if(0 != programsize){
+			for(i = 0; i < programsize; i++){
+				switch(ptr_program[i]){
+					case '[':
+						count++;
+						break;
+					case ']':
+						count--;
+						break;
+					default:
+						break;
+				}
+				
+				if(0 > count){
+					break;
+				}
+			}
+			
+			if(0 == count){
+				Ret = BFI_SUCCESS;
+			}
+		}
+	}
+	
+	return Ret;
+	
+}
+

@@ -4,6 +4,7 @@
 PCU_Suite *NewDeleteTest_suite(void);
 PCU_Suite *GetTapesizeTest_suite(void);
 PCU_Suite *GetTapeptrTest_suite(void);
+PCU_Suite *CheckProgramBracketTest_suite(void);
 
 int main()
 {
@@ -11,6 +12,7 @@ int main()
 		NewDeleteTest_suite,
 		GetTapesizeTest_suite,
 		GetTapeptrTest_suite,
+		CheckProgramBracketTest_suite,
 	};
 	
 	PCU_set_putchar(putchar);
