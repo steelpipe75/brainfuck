@@ -174,34 +174,55 @@ PCU_Suite *GetTapeptrTest_suite(void)
 	return &suite;
 }
 
+typedef struct PROG_BRACKET_TEST_DATA{
+	const char *ptr_program;
+	int programsize;
+}PROG_BRACKET_TEST_DATA;
+
+#define PROG_BRACKET_TEST(x)	{(x), sizeof(x)/sizeof(x[0])}
+
 void test_CheckProgramBracket_error(void)
 {
 	int bfi_ret;
+	
+	int i;
+	
 	static const char program1[] = "[";
 	static const char program2[] = "[]]";
 	
-	bfi_ret = brainfuck_check_programbracket( program1, sizeof(program1)/sizeof(program1[0]) );
+	static const PROG_BRACKET_TEST_DATA programs[] = {
+		PROG_BRACKET_TEST(program1),
+		PROG_BRACKET_TEST(program2),
+	};
+	int program_num = sizeof(programs)/sizeof(programs[0]);
 	
-	PCU_ASSERT_EQUAL(BFI_ERROR, bfi_ret);
-	
-	bfi_ret = brainfuck_check_programbracket( program2, sizeof(program2)/sizeof(program2[0]) );
-	
-	PCU_ASSERT_EQUAL(BFI_ERROR, bfi_ret);
+	for(i = 0; i < program_num; i++){
+		bfi_ret = brainfuck_check_programbracket(programs[i].ptr_program, programs[i].programsize);
+		
+		PCU_ASSERT_EQUAL_MESSAGE(BFI_ERROR, bfi_ret, PCU_format("i=%d",i));
+	}
 }
 
 void test_CheckProgramBracket(void)
 {
 	int bfi_ret;
+	
+	int i;
+	
 	static const char program1[] = "+";
 	static const char program2[] = "[]";
 	
-	bfi_ret = brainfuck_check_programbracket( program1, sizeof(program1)/sizeof(program1[0]) );
+	static const PROG_BRACKET_TEST_DATA programs[] = {
+		PROG_BRACKET_TEST(program1),
+		PROG_BRACKET_TEST(program2),
+	};
+	int program_num = sizeof(programs)/sizeof(programs[0]);
 	
-	PCU_ASSERT_EQUAL(BFI_SUCCESS, bfi_ret);
-	
-	bfi_ret = brainfuck_check_programbracket( program2, sizeof(program2)/sizeof(program2[0]) );
-	
-	PCU_ASSERT_EQUAL(BFI_SUCCESS, bfi_ret);
+	for(i = 0; i < program_num; i++){
+		bfi_ret = brainfuck_check_programbracket(programs[i].ptr_program, programs[i].programsize);
+		
+		PCU_ASSERT_EQUAL_MESSAGE(BFI_SUCCESS, bfi_ret, PCU_format("i=%d",i));
+	}
 }
 
 PCU_Suite *CheckProgramBracketTest_suite(void)
