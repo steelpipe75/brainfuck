@@ -10,6 +10,13 @@ typedef struct NEW_DELETE_TEST_DATA{
 
 #define NEW_DELETE_TEST(x,y)	{(x), sizeof(x)/sizeof(x[0]), y}
 
+typedef struct PROG_BRACKET_TEST_DATA{
+	const char *ptr_program;
+	int programsize;
+}PROG_BRACKET_TEST_DATA;
+
+#define PROG_BRACKET_TEST(x)	{(x), sizeof(x)/sizeof(x[0])}
+
 static const char program1[] = "+";
 static const char program2[] = "[]";
 
@@ -314,13 +321,6 @@ PCU_Suite *GetProgramptrTest_suite(void)
 	static PCU_Suite suite = { "GetProgramptrTest", tests, ( sizeof(tests) / sizeof(tests[0]) ) };
 	return &suite;
 }
-
-typedef struct PROG_BRACKET_TEST_DATA{
-	const char *ptr_program;
-	int programsize;
-}PROG_BRACKET_TEST_DATA;
-
-#define PROG_BRACKET_TEST(x)	{(x), sizeof(x)/sizeof(x[0])}
 
 void test_CheckProgramBracket_error(void)
 {
