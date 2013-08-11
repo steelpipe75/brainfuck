@@ -3,20 +3,13 @@
 
 #include "brainfuck.h"
 
-typedef struct NEW_DELETE_TEST_DATA{
+typedef struct BFI_TEST_DATA{
 	const char *ptr_program;
 	int programsize;
 	int tapesize;
-}NEW_DELETE_TEST_DATA;
+}BFI_TEST_DATA;
 
-#define NEW_DELETE_TEST(x,y)	{(x), sizeof(x)/sizeof(x[0]), y}
-
-typedef struct PROG_BRACKET_TEST_DATA{
-	const char *ptr_program;
-	int programsize;
-}PROG_BRACKET_TEST_DATA;
-
-#define PROG_BRACKET_TEST(x)	{(x), sizeof(x)/sizeof(x[0])}
+#define BFI_TEST(x,y)	{(x), sizeof(x)/sizeof(x[0]), y}
 
 static const char program1[] = "+";
 static const char program2[] = "[]";
@@ -32,11 +25,11 @@ void test_NewDelete_error(void)
 	
 	int i;
 	
-	static const NEW_DELETE_TEST_DATA programs[] = {
-		NEW_DELETE_TEST(program1,0),
-		NEW_DELETE_TEST(err_program1,256),
-		NEW_DELETE_TEST(err_program2,256),
-		NEW_DELETE_TEST(err_program3,256),
+	static const BFI_TEST_DATA programs[] = {
+		BFI_TEST(program1,0),
+		BFI_TEST(err_program1,256),
+		BFI_TEST(err_program2,256),
+		BFI_TEST(err_program3,256),
 	};
 	int program_num = sizeof(programs)/sizeof(programs[0]);
 	
@@ -408,10 +401,10 @@ void test_CheckProgramBracket_error(void)
 	
 	int i;
 	
-	static const PROG_BRACKET_TEST_DATA programs[] = {
-		PROG_BRACKET_TEST(err_program1),
-		PROG_BRACKET_TEST(err_program2),
-		PROG_BRACKET_TEST(err_program3),
+	static const BFI_TEST_DATA programs[] = {
+		BFI_TEST(err_program1,0),
+		BFI_TEST(err_program2,0),
+		BFI_TEST(err_program3,0),
 	};
 	int program_num = sizeof(programs)/sizeof(programs[0]);
 	
@@ -428,9 +421,9 @@ void test_CheckProgramBracket(void)
 	
 	int i;
 	
-	static const PROG_BRACKET_TEST_DATA programs[] = {
-		PROG_BRACKET_TEST(program1),
-		PROG_BRACKET_TEST(program2),
+	static const BFI_TEST_DATA programs[] = {
+		BFI_TEST(program1,0),
+		BFI_TEST(program2,0),
 	};
 	int program_num = sizeof(programs)/sizeof(programs[0]);
 	
