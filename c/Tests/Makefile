@@ -38,6 +38,7 @@ cov:
 	make CFLAGS="$(CFLAGS) -fprofile-arcs -ftest-coverage" LDFLAGS="$(LDFLAGS) -fprofile-arcs"
 
 test-cov:
+	make cov
 	make test
 	lcov -c -d . -o lcov.info
 	lcov -r lcov.info *.h -o lcov-html.info
