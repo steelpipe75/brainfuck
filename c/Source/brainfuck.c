@@ -39,10 +39,10 @@ int brainfuck_delete(BFI bfi)
 {
 	int Ret = BFI_ERROR;
 	int *tapeptr;
-	const char *programptr;
+	char *programptr;
 	
 	if(NULL != bfi){
-		programptr = bfi->programptr;
+		programptr = (char *)bfi->programptr;
 		if(NULL != programptr){
 			free(programptr);
 		}
