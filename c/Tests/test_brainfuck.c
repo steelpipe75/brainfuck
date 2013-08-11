@@ -26,7 +26,7 @@ static const char err_program3[] = "[]]";
 
 void test_NewDelete_error(void)
 {
-	BFI *bfi;
+	BFI bfi;
 	int bfi_ret;
 	
 	int i;
@@ -52,7 +52,7 @@ void test_NewDelete_error(void)
 
 void test_NewDelete(void)
 {
-	BFI *bfi;
+	BFI bfi;
 	int bfi_ret;
 	int test_tapesize;
 	int tapesize;
@@ -97,7 +97,7 @@ PCU_Suite *NewDeleteTest_suite(void)
 
 void test_GetTapesize_error(void)
 {
-	BFI *bfi;
+	BFI bfi;
 	int bfi_ret;
 	int tapesize;
 	
@@ -122,7 +122,7 @@ void test_GetTapesize_error(void)
 
 void test_GetTapesize(void)
 {
-	BFI *bfi;
+	BFI bfi;
 	int bfi_ret;
 	int tapesize;
 	int test_tapesize;
@@ -151,7 +151,7 @@ PCU_Suite *GetTapesizeTest_suite(void)
 
 void test_GetTapeptr_error(void)
 {
-	BFI *bfi;
+	BFI bfi;
 	int bfi_ret;
 	const int *tapeptr;
 	int c;
@@ -177,7 +177,7 @@ void test_GetTapeptr_error(void)
 
 void test_GetTapeptr(void)
 {
-	BFI *bfi;
+	BFI bfi;
 	int bfi_ret;
 	int tapesize;
 	int test_tapesize;
@@ -210,7 +210,7 @@ PCU_Suite *GetTapeptrTest_suite(void)
 
 void test_GetProgramsize_error(void)
 {
-	BFI *bfi;
+	BFI bfi;
 	int bfi_ret;
 	int programsize;
 	
@@ -235,7 +235,7 @@ void test_GetProgramsize_error(void)
 
 void test_GetProgramsize(void)
 {
-	BFI *bfi;
+	BFI bfi;
 	int bfi_ret;
 	int programsize;
 	int test_tapesize;
@@ -264,7 +264,7 @@ PCU_Suite *GetProgramsizeTest_suite(void)
 
 void test_GetProgramptr_error(void)
 {
-	BFI *bfi;
+	BFI bfi;
 	int bfi_ret;
 	const char *programptr;
 	char c;
@@ -290,7 +290,7 @@ void test_GetProgramptr_error(void)
 
 void test_GetProgramptr(void)
 {
-	BFI *bfi;
+	BFI bfi;
 	int bfi_ret;
 	int tapesize;
 	int test_tapesize;
