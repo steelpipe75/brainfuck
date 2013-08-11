@@ -30,6 +30,9 @@ test: all
 
 clean:
 	rm -f *.o $(TARGET)
+	rm -f *.gcda
+	rm -f *.gcno
+	rm -f  *.info
 
 cov: 
 	make CFLAGS="$(CFLAGS) -fprofile-arcs -ftest-coverage" LDFLAGS="$(LDFLAGS) -fprofile-arcs"
