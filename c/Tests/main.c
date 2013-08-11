@@ -2,6 +2,7 @@
 #include <stdio.h>
 
 PCU_Suite *NewDeleteTest_suite(void);
+PCU_Suite *GetSetPutcharGetcharTest_suite(void);
 PCU_Suite *GetTapesizeTest_suite(void);
 PCU_Suite *GetTapeptrTest_suite(void);
 PCU_Suite *GetProgramsizeTest_suite(void);
@@ -12,6 +13,7 @@ int main()
 {
 	const PCU_SuiteMethod suites[] = {
 		NewDeleteTest_suite,
+		GetSetPutcharGetcharTest_suite,
 		GetTapesizeTest_suite,
 		GetTapeptrTest_suite,
 		GetProgramsizeTest_suite,

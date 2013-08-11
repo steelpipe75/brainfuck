@@ -3,6 +3,8 @@
 #include "brainfuck.h"
 
 typedef struct BFINTERPRETER{
+	BFI_Putchar func_putchar;
+	BFI_Getchar func_getchar;
 	int programsize;
 	const char *programptr;
 	int tapesize;
@@ -22,6 +24,8 @@ BFI brainfuck_new(const char *ptr_program, int programsize, int tapesize)
 		
 		if(BFI_SUCCESS == Ret){
 			bfi = malloc(sizeof(BFINTERPRETER));
+			bfi->func_putchar = NULL;
+			bfi->func_getchar = NULL;
 			bfi->programsize = programsize;
 			programptr = malloc(programsize);
 			bfi->programptr = programptr;
@@ -51,6 +55,58 @@ int brainfuck_delete(BFI bfi)
 			free(tapeptr);
 		}
 		free(bfi);
+		Ret = BFI_SUCCESS;
+	}
+	
+	return Ret;
+}
+
+int brainfuck_set_putchar(BFI bfi, BFI_Putchar func)
+{
+	int Ret = BFI_ERROR;
+	
+	if(NULL != bfi){
+		bfi->func_putchar = func;
+		Ret = BFI_SUCCESS;
+	}
+	
+	return Ret;
+}
+
+int brainfuck_set_getchar(BFI bfi, BFI_Getchar func)
+{
+	int Ret = BFI_ERROR;
+	
+	if(NULL != bfi){
+		bfi->func_getchar = func;
+		Ret = BFI_SUCCESS;
+	}
+	
+	return Ret;
+}
+
+int brainfuck_get_putchar(BFI bfi, BFI_Putchar *ptr_func)
+{
+	int Ret = BFI_ERROR;
+	BFI_Putchar func;
+	
+	if(NULL != bfi){
+		func = bfi->func_putchar;
+		*ptr_func = func;
+		Ret = BFI_SUCCESS;
+	}
+	
+	return Ret;
+}
+
+int brainfuck_get_getchar(BFI bfi, BFI_Getchar *ptr_func)
+{
+	int Ret = BFI_ERROR;
+	BFI_Getchar func;
+	
+	if(NULL != bfi){
+		func = bfi->func_getchar;
+		*ptr_func = func;
 		Ret = BFI_SUCCESS;
 	}
 	

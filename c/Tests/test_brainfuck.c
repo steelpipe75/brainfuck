@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <PCUnit/PCUnit.h>
 
 #include "brainfuck.h"
@@ -92,6 +93,85 @@ PCU_Suite *NewDeleteTest_suite(void)
 		PCU_TEST(test_NewDelete),
 	};
 	static PCU_Suite suite = { "NewDeleteTest", tests, ( sizeof(tests) / sizeof(tests[0]) ) };
+	return &suite;
+}
+
+void test_GetSetPutcharGetchar_error(void)
+{
+	BFI bfi;
+	int bfi_ret;
+	BFI_Putchar func_putchar;
+	BFI_Getchar func_getchar;
+	
+	func_putchar = NULL;
+	func_getchar = NULL;
+	
+	bfi = brainfuck_new(program1, sizeof(program1)/sizeof(program1[0]), 0);
+	
+	bfi_ret = brainfuck_set_putchar(bfi, putchar);
+	
+	PCU_ASSERT_EQUAL(BFI_ERROR, bfi_ret);
+	
+	bfi_ret = brainfuck_set_getchar(bfi, getchar);
+	
+	PCU_ASSERT_EQUAL(BFI_ERROR, bfi_ret);
+	
+	bfi_ret = brainfuck_get_putchar(bfi, &func_putchar);
+	
+	PCU_ASSERT_EQUAL(BFI_ERROR, bfi_ret);
+	PCU_ASSERT_PTR_EQUAL(NULL, func_putchar);
+	
+	bfi_ret = brainfuck_get_getchar(bfi, &func_getchar);
+	
+	PCU_ASSERT_EQUAL(BFI_ERROR, bfi_ret);
+	PCU_ASSERT_PTR_EQUAL(NULL, func_getchar);
+	
+	bfi_ret = brainfuck_delete(bfi);
+}
+
+void test_GetSetPutcharGetchar(void)
+{
+	BFI bfi;
+	int bfi_ret;
+	int tapesize;
+	int test_tapesize;
+	BFI_Putchar func_putchar;
+	BFI_Getchar func_getchar;
+	
+	test_tapesize = 256;
+	func_putchar = NULL;
+	func_getchar = NULL;
+	
+	bfi = brainfuck_new(program1, sizeof(program1)/sizeof(program1[0]), test_tapesize);
+	
+	bfi_ret = brainfuck_set_putchar(bfi, putchar);
+	
+	PCU_ASSERT_EQUAL(BFI_SUCCESS, bfi_ret);
+	
+	bfi_ret = brainfuck_set_getchar(bfi, getchar);
+	
+	PCU_ASSERT_EQUAL(BFI_SUCCESS, bfi_ret);
+	
+	bfi_ret = brainfuck_get_putchar(bfi, &func_putchar);
+	
+	PCU_ASSERT_EQUAL(BFI_SUCCESS, bfi_ret);
+	PCU_ASSERT_PTR_EQUAL(putchar, func_putchar);
+	
+	bfi_ret = brainfuck_get_getchar(bfi, &func_getchar);
+	
+	PCU_ASSERT_EQUAL(BFI_SUCCESS, bfi_ret);
+	PCU_ASSERT_PTR_EQUAL(getchar, func_getchar);
+	
+	bfi_ret = brainfuck_delete(bfi);
+}
+
+PCU_Suite *GetSetPutcharGetcharTest_suite(void)
+{
+	static PCU_Test tests[] = {
+		PCU_TEST(test_GetSetPutcharGetchar_error),
+		PCU_TEST(test_GetSetPutcharGetchar),
+	};
+	static PCU_Suite suite = { "GetSetPutcharGetcharTest", tests, ( sizeof(tests) / sizeof(tests[0]) ) };
 	return &suite;
 }
 
