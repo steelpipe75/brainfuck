@@ -113,7 +113,7 @@ int brainfuck_get_getchar(BFI bfi, BFI_Getchar *ptr_func)
 	return Ret;
 }
 
-extern int brainfuck_get_tapesize(BFI bfi, int *ptr_tapesize)
+int brainfuck_get_tapesize(BFI bfi, int *ptr_tapesize)
 {
 	int Ret = BFI_ERROR;
 	int tapesize;
@@ -145,7 +145,7 @@ int brainfuck_get_tapeptr(BFI bfi, const int **ptr_tapeptr)
 	return Ret;
 }
 
-extern int brainfuck_get_programsize(BFI bfi, int *ptr_programsize)
+int brainfuck_get_programsize(BFI bfi, int *ptr_programsize)
 {
 	int Ret = BFI_ERROR;
 	int programsize;
