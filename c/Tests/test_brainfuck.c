@@ -14,7 +14,8 @@ static const char program1[] = "+";
 static const char program2[] = "[]";
 
 static const char err_program1[] = "[";
-static const char err_program2[] = "[]]";
+static const char err_program2[] = "[]][";
+static const char err_program3[] = "[]]";
 
 void test_NewDelete_error(void)
 {
@@ -27,6 +28,7 @@ void test_NewDelete_error(void)
 		NEW_DELETE_TEST(program1,0),
 		NEW_DELETE_TEST(err_program1,256),
 		NEW_DELETE_TEST(err_program2,256),
+		NEW_DELETE_TEST(err_program3,256),
 	};
 	int program_num = sizeof(programs)/sizeof(programs[0]);
 	
@@ -329,6 +331,7 @@ void test_CheckProgramBracket_error(void)
 	static const PROG_BRACKET_TEST_DATA programs[] = {
 		PROG_BRACKET_TEST(err_program1),
 		PROG_BRACKET_TEST(err_program2),
+		PROG_BRACKET_TEST(err_program3),
 	};
 	int program_num = sizeof(programs)/sizeof(programs[0]);
 	
