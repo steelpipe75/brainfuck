@@ -309,7 +309,7 @@ PCU_Suite *GetProgramptrTest_suite(void)
 		PCU_TEST(test_GetProgramptr_error),
 		PCU_TEST(test_GetProgramptr),
 	};
-	static PCU_Suite suite = { "GetProgramptr", tests, ( sizeof(tests) / sizeof(tests[0]) ) };
+	static PCU_Suite suite = { "GetProgramptrTest", tests, ( sizeof(tests) / sizeof(tests[0]) ) };
 	return &suite;
 }
 
