@@ -202,6 +202,68 @@ PCU_Suite *GetTapeptrTest_suite(void)
 	return &suite;
 }
 
+void test_GetProgramptr_error(void)
+{
+	BFI *bfi;
+	int bfi_ret;
+	const char *programptr;
+	char c;
+	char program[] = "+";
+	
+	bfi = brainfuck_new(program, sizeof(program)/sizeof(program[0]), 0);
+	
+	programptr = NULL;
+	
+	bfi_ret = brainfuck_get_programptr(bfi, &programptr);
+	
+	PCU_ASSERT_EQUAL(BFI_ERROR, bfi_ret);
+	PCU_ASSERT_PTR_EQUAL(NULL, programptr);
+	
+	programptr = &c;
+	
+	bfi_ret = brainfuck_get_programptr(bfi, &programptr);
+	
+	PCU_ASSERT_EQUAL(BFI_ERROR, bfi_ret);
+	PCU_ASSERT_PTR_EQUAL(&c, programptr);
+	
+	bfi_ret = brainfuck_delete(bfi);
+}
+
+void test_GetProgramptr(void)
+{
+	BFI *bfi;
+	int bfi_ret;
+	int tapesize;
+	int test_tapesize;
+	const char *programptr;
+	char c;
+	char program[] = "+";
+	
+	test_tapesize = 256;
+	
+	bfi = brainfuck_new(program, sizeof(program)/sizeof(program[0]), test_tapesize);
+	
+	programptr = &c;
+	
+	bfi_ret = brainfuck_get_programptr(bfi, &programptr);
+	
+	PCU_ASSERT_EQUAL(BFI_SUCCESS, bfi_ret);
+	PCU_ASSERT_PTR_NOT_EQUAL(&c, programptr);
+	PCU_ASSERT_PTR_NOT_EQUAL(program, programptr);
+		
+	bfi_ret = brainfuck_delete(bfi);
+}
+
+PCU_Suite *GetProgramptrTest_suite(void)
+{
+	static PCU_Test tests[] = {
+		PCU_TEST(test_GetProgramptr_error),
+		PCU_TEST(test_GetProgramptr),
+	};
+	static PCU_Suite suite = { "GetProgramptr", tests, ( sizeof(tests) / sizeof(tests[0]) ) };
+	return &suite;
+}
+
 typedef struct PROG_BRACKET_TEST_DATA{
 	const char *ptr_program;
 	int programsize;

@@ -1,7 +1,10 @@
 #include <stdlib.h>
+#include <string.h>
 #include "brainfuck.h"
 
 typedef struct BFINTERPRETER{
+	int programsize;
+	const char *programptr;
 	int tapesize;
 	char *tapeptr;
 }BFINTERPRETER;
@@ -10,6 +13,7 @@ typedef struct BFINTERPRETER{
 BFI brainfuck_new(const char *ptr_program, int programsize, int tapesize)
 {
 	BFI bfi = NULL;
+	char *programptr;
 	char *tapeptr;
 	int Ret;
 	
@@ -18,6 +22,10 @@ BFI brainfuck_new(const char *ptr_program, int programsize, int tapesize)
 		
 		if(BFI_SUCCESS == Ret){
 			bfi = malloc(sizeof(BFINTERPRETER));
+			bfi->programsize = programsize;
+			programptr = malloc(programsize);
+			bfi->programptr = programptr;
+			memcpy(programptr, ptr_program, programsize);
 			bfi->tapesize = tapesize;
 			tapeptr = calloc(tapesize,sizeof(char));
 			bfi->tapeptr = tapeptr;
@@ -31,8 +39,13 @@ int brainfuck_delete(BFI bfi)
 {
 	int Ret = BFI_ERROR;
 	char *tapeptr;
+	const char *programptr;
 	
 	if(NULL != bfi){
+		programptr = bfi->programptr;
+		if(NULL != programptr){
+			free(programptr);
+		}
 		tapeptr = bfi->tapeptr;
 		if(NULL != tapeptr){
 			free(tapeptr);
@@ -69,6 +82,22 @@ int brainfuck_get_tapeptr(BFI bfi, const char **ptr_tapeptr)
 		tapeptr = bfi->tapeptr;
 		if(0 != tapeptr){
 			*ptr_tapeptr = tapeptr;
+			Ret = BFI_SUCCESS;
+		}
+	}
+	
+	return Ret;
+}
+
+int brainfuck_get_programptr(BFI bfi, const char **ptr_programptr)
+{
+	int Ret = BFI_ERROR;
+	const char *programptr;
+	
+	if(NULL != bfi){
+		programptr = bfi->programptr;
+		if(0 != programptr){
+			*ptr_programptr = programptr;
 			Ret = BFI_SUCCESS;
 		}
 	}
