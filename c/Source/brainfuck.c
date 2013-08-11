@@ -6,7 +6,7 @@ typedef struct BFINTERPRETER{
 	int programsize;
 	const char *programptr;
 	int tapesize;
-	char *tapeptr;
+	int *tapeptr;
 }BFINTERPRETER;
 
 
@@ -14,7 +14,7 @@ BFI brainfuck_new(const char *ptr_program, int programsize, int tapesize)
 {
 	BFI bfi = NULL;
 	char *programptr;
-	char *tapeptr;
+	int *tapeptr;
 	int Ret;
 	
 	if(0 != tapesize){
@@ -27,7 +27,7 @@ BFI brainfuck_new(const char *ptr_program, int programsize, int tapesize)
 			bfi->programptr = programptr;
 			memcpy(programptr, ptr_program, programsize);
 			bfi->tapesize = tapesize;
-			tapeptr = calloc(tapesize,sizeof(char));
+			tapeptr = calloc(tapesize,sizeof(int));
 			bfi->tapeptr = tapeptr;
 		}
 	}
@@ -38,7 +38,7 @@ BFI brainfuck_new(const char *ptr_program, int programsize, int tapesize)
 int brainfuck_delete(BFI bfi)
 {
 	int Ret = BFI_ERROR;
-	char *tapeptr;
+	int *tapeptr;
 	const char *programptr;
 	
 	if(NULL != bfi){
@@ -73,10 +73,10 @@ extern int brainfuck_get_tapesize(BFI bfi, int *ptr_tapesize)
 	return Ret;
 }
 
-int brainfuck_get_tapeptr(BFI bfi, const char **ptr_tapeptr)
+int brainfuck_get_tapeptr(BFI bfi, const int **ptr_tapeptr)
 {
 	int Ret = BFI_ERROR;
-	const char *tapeptr;
+	const int *tapeptr;
 	
 	if(NULL != bfi){
 		tapeptr = bfi->tapeptr;

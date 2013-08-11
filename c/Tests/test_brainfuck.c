@@ -56,8 +56,8 @@ void test_NewDelete(void)
 	int bfi_ret;
 	int test_tapesize;
 	int tapesize;
-	const char *tapeptr;
-	char c;
+	const int *tapeptr;
+	int c;
 	int i;
 	
 	test_tapesize = 256;
@@ -153,8 +153,8 @@ void test_GetTapeptr_error(void)
 {
 	BFI *bfi;
 	int bfi_ret;
-	const char *tapeptr;
-	char c;
+	const int *tapeptr;
+	int c;
 	
 	bfi = brainfuck_new(program1, sizeof(program1)/sizeof(program1[0]), 0);
 	
@@ -181,8 +181,8 @@ void test_GetTapeptr(void)
 	int bfi_ret;
 	int tapesize;
 	int test_tapesize;
-	const char *tapeptr;
-	char c;
+	const int *tapeptr;
+	int c;
 	
 	test_tapesize = 256;
 	
