@@ -202,6 +202,62 @@ PCU_Suite *GetTapeptrTest_suite(void)
 	return &suite;
 }
 
+void test_GetProgramsize_error(void)
+{
+	BFI *bfi;
+	int bfi_ret;
+	int programsize;
+	char program[] = "+";
+	
+	bfi = brainfuck_new(program, sizeof(program)/sizeof(program[0]), 0);
+	
+	programsize = 0;
+	
+	bfi_ret = brainfuck_get_programsize(bfi, &programsize);
+	
+	PCU_ASSERT_EQUAL(BFI_ERROR, bfi_ret);
+	PCU_ASSERT_EQUAL(0, programsize);
+	
+	programsize = 256;
+	
+	bfi_ret = brainfuck_get_programsize(bfi, &programsize);
+	
+	PCU_ASSERT_EQUAL(BFI_ERROR, bfi_ret);
+	PCU_ASSERT_EQUAL(256, programsize);
+	
+	bfi_ret = brainfuck_delete(bfi);
+}
+
+void test_GetProgramsize(void)
+{
+	BFI *bfi;
+	int bfi_ret;
+	int programsize;
+	int test_tapesize;
+	char program[] = "+";
+	
+	test_tapesize = 256;
+	
+	bfi = brainfuck_new(program, sizeof(program)/sizeof(program[0]), test_tapesize);
+	
+	bfi_ret = brainfuck_get_programsize(bfi, &programsize);
+	
+	PCU_ASSERT_EQUAL(BFI_SUCCESS, bfi_ret);
+	PCU_ASSERT_EQUAL(sizeof(program), programsize);
+	
+	bfi_ret = brainfuck_delete(bfi);
+}
+
+PCU_Suite *GetProgramsizeTest_suite(void)
+{
+	static PCU_Test tests[] = {
+		PCU_TEST(test_GetProgramsize_error),
+		PCU_TEST(test_GetProgramsize),
+	};
+	static PCU_Suite suite = { "GetProgramsizeTest", tests, ( sizeof(tests) / sizeof(tests[0]) ) };
+	return &suite;
+}
+
 void test_GetProgramptr_error(void)
 {
 	BFI *bfi;

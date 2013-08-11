@@ -89,6 +89,22 @@ int brainfuck_get_tapeptr(BFI bfi, const char **ptr_tapeptr)
 	return Ret;
 }
 
+extern int brainfuck_get_programsize(BFI bfi, int *ptr_programsize)
+{
+	int Ret = BFI_ERROR;
+	int programsize;
+	
+	if(NULL != bfi){
+		programsize = bfi->programsize;
+		if(0 != programsize){
+			*ptr_programsize = programsize;
+			Ret = BFI_SUCCESS;
+		}
+	}
+	
+	return Ret;
+}
+
 int brainfuck_get_programptr(BFI bfi, const char **ptr_programptr)
 {
 	int Ret = BFI_ERROR;
