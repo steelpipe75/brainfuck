@@ -10,6 +10,12 @@ typedef struct NEW_DELETE_TEST_DATA{
 
 #define NEW_DELETE_TEST(x,y)	{(x), sizeof(x)/sizeof(x[0]), y}
 
+static const char program1[] = "+";
+static const char program2[] = "[]";
+
+static const char err_program1[] = "[";
+static const char err_program2[] = "[]]";
+
 void test_NewDelete_error(void)
 {
 	BFI *bfi;
@@ -17,14 +23,10 @@ void test_NewDelete_error(void)
 	
 	int i;
 	
-	static const char program1[] = "+";
-	static const char program2[] = "[";
-	static const char program3[] = "[]]";
-	
 	static const NEW_DELETE_TEST_DATA programs[] = {
 		NEW_DELETE_TEST(program1,0),
-		NEW_DELETE_TEST(program2,256),
-		NEW_DELETE_TEST(program3,256),
+		NEW_DELETE_TEST(err_program1,256),
+		NEW_DELETE_TEST(err_program2,256),
 	};
 	int program_num = sizeof(programs)/sizeof(programs[0]);
 	
@@ -48,11 +50,10 @@ void test_NewDelete(void)
 	const char *tapeptr;
 	char c;
 	int i;
-	char program[] = "+";
 	
 	test_tapesize = 256;
 	
-	bfi = brainfuck_new(program, sizeof(program)/sizeof(program[0]), test_tapesize);
+	bfi = brainfuck_new(program1, sizeof(program1)/sizeof(program1[0]), test_tapesize);
 	
 	PCU_ASSERT_PTR_NOT_EQUAL(NULL, bfi);
 	
@@ -90,9 +91,8 @@ void test_GetTapesize_error(void)
 	BFI *bfi;
 	int bfi_ret;
 	int tapesize;
-	char program[] = "+";
 	
-	bfi = brainfuck_new(program, sizeof(program)/sizeof(program[0]), 0);
+	bfi = brainfuck_new(program1, sizeof(program1)/sizeof(program1[0]), 0);
 	
 	tapesize = 0;
 	
@@ -117,11 +117,10 @@ void test_GetTapesize(void)
 	int bfi_ret;
 	int tapesize;
 	int test_tapesize;
-	char program[] = "+";
 	
 	test_tapesize = 256;
 	
-	bfi = brainfuck_new(program, sizeof(program)/sizeof(program[0]), test_tapesize);
+	bfi = brainfuck_new(program1, sizeof(program1)/sizeof(program1[0]), test_tapesize);
 	
 	bfi_ret = brainfuck_get_tapesize(bfi, &tapesize);
 	
@@ -147,9 +146,8 @@ void test_GetTapeptr_error(void)
 	int bfi_ret;
 	const char *tapeptr;
 	char c;
-	char program[] = "+";
 	
-	bfi = brainfuck_new(program, sizeof(program)/sizeof(program[0]), 0);
+	bfi = brainfuck_new(program1, sizeof(program1)/sizeof(program1[0]), 0);
 	
 	tapeptr = NULL;
 	
@@ -176,11 +174,10 @@ void test_GetTapeptr(void)
 	int test_tapesize;
 	const char *tapeptr;
 	char c;
-	char program[] = "+";
 	
 	test_tapesize = 256;
 	
-	bfi = brainfuck_new(program, sizeof(program)/sizeof(program[0]), test_tapesize);
+	bfi = brainfuck_new(program1, sizeof(program1)/sizeof(program1[0]), test_tapesize);
 	
 	tapeptr = &c;
 	
@@ -207,9 +204,8 @@ void test_GetProgramsize_error(void)
 	BFI *bfi;
 	int bfi_ret;
 	int programsize;
-	char program[] = "+";
 	
-	bfi = brainfuck_new(program, sizeof(program)/sizeof(program[0]), 0);
+	bfi = brainfuck_new(program1, sizeof(program1)/sizeof(program1[0]), 0);
 	
 	programsize = 0;
 	
@@ -234,16 +230,15 @@ void test_GetProgramsize(void)
 	int bfi_ret;
 	int programsize;
 	int test_tapesize;
-	char program[] = "+";
 	
 	test_tapesize = 256;
 	
-	bfi = brainfuck_new(program, sizeof(program)/sizeof(program[0]), test_tapesize);
+	bfi = brainfuck_new(program1, sizeof(program1)/sizeof(program1[0]), test_tapesize);
 	
 	bfi_ret = brainfuck_get_programsize(bfi, &programsize);
 	
 	PCU_ASSERT_EQUAL(BFI_SUCCESS, bfi_ret);
-	PCU_ASSERT_EQUAL(sizeof(program), programsize);
+	PCU_ASSERT_EQUAL(sizeof(program1), programsize);
 	
 	bfi_ret = brainfuck_delete(bfi);
 }
@@ -264,9 +259,8 @@ void test_GetProgramptr_error(void)
 	int bfi_ret;
 	const char *programptr;
 	char c;
-	char program[] = "+";
 	
-	bfi = brainfuck_new(program, sizeof(program)/sizeof(program[0]), 0);
+	bfi = brainfuck_new(program1, sizeof(program1)/sizeof(program1[0]), 0);
 	
 	programptr = NULL;
 	
@@ -293,11 +287,10 @@ void test_GetProgramptr(void)
 	int test_tapesize;
 	const char *programptr;
 	char c;
-	char program[] = "+";
 	
 	test_tapesize = 256;
 	
-	bfi = brainfuck_new(program, sizeof(program)/sizeof(program[0]), test_tapesize);
+	bfi = brainfuck_new(program1, sizeof(program1)/sizeof(program1[0]), test_tapesize);
 	
 	programptr = &c;
 	
@@ -305,7 +298,7 @@ void test_GetProgramptr(void)
 	
 	PCU_ASSERT_EQUAL(BFI_SUCCESS, bfi_ret);
 	PCU_ASSERT_PTR_NOT_EQUAL(&c, programptr);
-	PCU_ASSERT_PTR_NOT_EQUAL(program, programptr);
+	PCU_ASSERT_PTR_NOT_EQUAL(program1, programptr);
 		
 	bfi_ret = brainfuck_delete(bfi);
 }
@@ -333,12 +326,9 @@ void test_CheckProgramBracket_error(void)
 	
 	int i;
 	
-	static const char program1[] = "[";
-	static const char program2[] = "[]]";
-	
 	static const PROG_BRACKET_TEST_DATA programs[] = {
-		PROG_BRACKET_TEST(program1),
-		PROG_BRACKET_TEST(program2),
+		PROG_BRACKET_TEST(err_program1),
+		PROG_BRACKET_TEST(err_program2),
 	};
 	int program_num = sizeof(programs)/sizeof(programs[0]);
 	
@@ -354,9 +344,6 @@ void test_CheckProgramBracket(void)
 	int bfi_ret;
 	
 	int i;
-	
-	static const char program1[] = "+";
-	static const char program2[] = "[]";
 	
 	static const PROG_BRACKET_TEST_DATA programs[] = {
 		PROG_BRACKET_TEST(program1),
