@@ -13,6 +13,10 @@ typedef struct BFI_TEST_DATA{
 
 static const char program1[] = "+";
 static const char program2[] = "[]";
+static const char program3[] = "+";
+static const char program4[] = "-";
+static const char program5[] = ">";
+static const char program6[] = "<";
 
 static const char err_program1[] = "[";
 static const char err_program2[] = "[]][";
@@ -441,6 +445,73 @@ PCU_Suite *CheckProgramBracketTest_suite(void)
 		PCU_TEST(test_CheckProgramBracket),
 	};
 	static PCU_Suite suite = { "CheckProgramBracketTest", tests, ( sizeof(tests) / sizeof(tests[0]) ) };
+	return &suite;
+}
+
+void test_Step_error(void)
+{
+	BFI bfi;
+	int bfi_ret;
+	int i;
+	
+	static const BFI_TEST_DATA programs[] = {
+		BFI_TEST(err_program1,0),
+		BFI_TEST(err_program2,0),
+		BFI_TEST(err_program3,0),
+	};
+	int program_num = sizeof(programs)/sizeof(programs[0]);
+	
+	for(i = 0; i < program_num; i++){
+		bfi = brainfuck_new(programs[i].ptr_program, programs[i].programsize, programs[i].tapesize);
+		
+		PCU_ASSERT_PTR_EQUAL_MESSAGE(NULL, bfi, PCU_format("i=%d",i));
+		
+		bfi_ret = brainfuck_step(bfi);
+		
+		PCU_ASSERT_EQUAL_MESSAGE(BFI_ERROR, bfi_ret, PCU_format("i=%d",i));
+		
+		bfi_ret = brainfuck_delete(bfi);
+		
+		PCU_ASSERT_EQUAL_MESSAGE(BFI_ERROR, bfi_ret, PCU_format("i=%d",i));
+	}
+}
+
+void test_Step(void)
+{
+	BFI bfi;
+	int bfi_ret;
+	int i;
+	
+	static const BFI_TEST_DATA programs[] = {
+		BFI_TEST(program3,256),
+		BFI_TEST(program4,256),
+		BFI_TEST(program5,256),
+		BFI_TEST(program6,256),
+	};
+	int program_num = sizeof(programs)/sizeof(programs[0]);
+	
+	for(i = 0; i < program_num; i++){
+		bfi = brainfuck_new(programs[i].ptr_program, programs[i].programsize, programs[i].tapesize);
+		
+		PCU_ASSERT_PTR_NOT_EQUAL_MESSAGE(NULL, bfi, PCU_format("i=%d",i));
+		
+		bfi_ret = brainfuck_step(bfi);
+		
+		PCU_ASSERT_EQUAL_MESSAGE(BFI_SUCCESS_END, bfi_ret, PCU_format("i=%d",i));
+		
+		bfi_ret = brainfuck_delete(bfi);
+		
+		PCU_ASSERT_EQUAL_MESSAGE(BFI_SUCCESS, bfi_ret, PCU_format("i=%d",i));
+	}
+}
+
+PCU_Suite *StepTest_suite(void)
+{
+	static PCU_Test tests[] = {
+		PCU_TEST(test_Step_error),
+		PCU_TEST(test_Step),
+	};
+	static PCU_Suite suite = { "StepTest", tests, ( sizeof(tests) / sizeof(tests[0]) ) };
 	return &suite;
 }
 

@@ -5,6 +5,10 @@
 typedef struct BFINTERPRETER{
 	BFI_Putchar func_putchar;
 	BFI_Getchar func_getchar;
+	
+	int pc;
+	int tc;
+	
 	int programsize;
 	const char *programptr;
 	int tapesize;
@@ -26,6 +30,10 @@ BFI brainfuck_new(const char *ptr_program, int programsize, int tapesize)
 			bfi = malloc(sizeof(BFINTERPRETER));
 			bfi->func_putchar = NULL;
 			bfi->func_getchar = NULL;
+			
+			bfi->pc = 0;
+			bfi->tc = 0;
+			
 			bfi->programsize = programsize;
 			programptr = malloc(programsize);
 			bfi->programptr = programptr;
@@ -56,6 +64,49 @@ int brainfuck_delete(BFI bfi)
 		}
 		free(bfi);
 		Ret = BFI_SUCCESS;
+	}
+	
+	return Ret;
+}
+
+int brainfuck_step(BFI bfi)
+{
+	int Ret = BFI_ERROR;
+	const char *programptr;
+	int programsize;
+	int pc;
+	int tc;
+	
+	if(NULL != bfi){
+		programsize = bfi->programsize;
+		if(0 != programsize){
+			programptr = bfi->programptr;
+			if(NULL != programptr){
+				pc = bfi->pc;
+				tc = bfi->tc;
+				if(pc < programsize){
+					Ret = BFI_SUCCESS;
+					switch(programptr[pc]){
+						case '+':
+							bfi->tapeptr[tc]++;
+							pc++;
+							bfi->pc = pc;
+							break;
+						case '-':
+							bfi->tapeptr[tc]--;
+							pc++;
+							bfi->pc = pc;
+							break;
+						default:
+							break;
+					}
+					
+					if(bfi->pc <= bfi->programsize){
+						Ret = BFI_SUCCESS_END;
+					}
+				}
+			}
+		}
 	}
 	
 	return Ret;

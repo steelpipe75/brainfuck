@@ -5,11 +5,14 @@ typedef struct BFINTERPRETER* BFI;
 typedef int(*BFI_Putchar)(int c);
 typedef int(*BFI_Getchar)(void);
 
-#define BFI_SUCCESS	(0)
+#define BFI_SUCCESS		(0)
+#define BFI_SUCCESS_END	(1)
 #define BFI_ERROR	(-1)
 
 extern BFI brainfuck_new(const char *ptr_program, int programsize, int tapesize);
 extern int brainfuck_delete(BFI bfi);
+
+extern int brainfuck_step(BFI bfi);
 
 extern int brainfuck_set_putchar(BFI bfi, BFI_Putchar func);
 extern int brainfuck_set_getchar(BFI bfi, BFI_Getchar func);
