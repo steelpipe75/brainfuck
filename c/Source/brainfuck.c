@@ -100,10 +100,6 @@ int brainfuck_step(BFI bfi)
 						default:
 							break;
 					}
-					
-					if(bfi->pc <= bfi->programsize){
-						Ret = BFI_SUCCESS_END;
-					}
 				}
 			}
 		}

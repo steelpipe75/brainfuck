@@ -497,7 +497,7 @@ void test_Step(void)
 		
 		bfi_ret = brainfuck_step(bfi);
 		
-		PCU_ASSERT_EQUAL_MESSAGE(BFI_SUCCESS_END, bfi_ret, PCU_format("i=%d",i));
+		PCU_ASSERT_EQUAL_MESSAGE(BFI_SUCCESS, bfi_ret, PCU_format("i=%d",i));
 		
 		bfi_ret = brainfuck_delete(bfi);
 		
