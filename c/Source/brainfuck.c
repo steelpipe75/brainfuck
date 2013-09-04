@@ -98,6 +98,8 @@ int brainfuck_step(BFI bfi)
 							bfi->pc = pc;
 							break;
 						default:
+							pc++;
+							bfi->pc = pc;
 							break;
 					}
 				}
@@ -107,6 +109,32 @@ int brainfuck_step(BFI bfi)
 	
 	return Ret;
 }
+
+int brainfuck_get_programcounter(BFI bfi, int *ptr_programcounter)
+{
+	int Ret = BFI_ERROR;
+	
+	if(NULL != bfi){
+		*ptr_programcounter = bfi->pc;
+		Ret = BFI_SUCCESS;
+	}
+	
+	return Ret;
+}
+
+#if 0
+int brainfuck_get_tapecounter(BFI bfi, int *ptr_tapecounter)
+{
+	int Ret = BFI_ERROR;
+	
+	if(NULL != bfi){
+		*ptr_tapecounter = bfi->tc;
+		Ret = BFI_SUCCESS;
+	}
+	
+	return Ret;
+}
+#endif
 
 int brainfuck_set_putchar(BFI bfi, BFI_Putchar func)
 {

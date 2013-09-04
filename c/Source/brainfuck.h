@@ -13,6 +13,9 @@ extern int brainfuck_delete(BFI bfi);
 
 extern int brainfuck_step(BFI bfi);
 
+extern int brainfuck_get_programcounter(BFI bfi, int *ptr_programcounter);
+/* extern int brainfuck_get_tapecounter(BFI bfi, int *ptr_tapecounter); */
+
 extern int brainfuck_set_putchar(BFI bfi, BFI_Putchar func);
 extern int brainfuck_set_getchar(BFI bfi, BFI_Getchar func);
 extern int brainfuck_get_putchar(BFI bfi, BFI_Putchar *ptr_func);

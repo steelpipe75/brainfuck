@@ -15,8 +15,8 @@ static const char program1[] = "+";
 static const char program2[] = "[]";
 static const char program3[] = "+";
 static const char program4[] = "-";
-static const char program5[] = ">";
-static const char program6[] = "<";
+static const char program5[] = "*";
+
 
 static const char err_program1[] = "[";
 static const char err_program2[] = "[]][";
@@ -453,6 +453,7 @@ void test_Step_error(void)
 	BFI bfi;
 	int bfi_ret;
 	int i;
+	int pc;
 	
 	static const BFI_TEST_DATA programs[] = {
 		BFI_TEST(err_program1,0),
@@ -470,6 +471,20 @@ void test_Step_error(void)
 		
 		PCU_ASSERT_EQUAL_MESSAGE(BFI_ERROR, bfi_ret, PCU_format("i=%d",i));
 		
+		pc = 0;
+		
+		bfi_ret = brainfuck_get_programcounter(bfi, &pc);
+		
+		PCU_ASSERT_EQUAL_MESSAGE(BFI_ERROR, bfi_ret, PCU_format("i=%d",i));
+		PCU_ASSERT_EQUAL_MESSAGE(0, pc, PCU_format("i=%d",i));
+		
+		pc = 256;
+		
+		bfi_ret = brainfuck_get_programcounter(bfi, &pc);
+		
+		PCU_ASSERT_EQUAL_MESSAGE(BFI_ERROR, bfi_ret, PCU_format("i=%d",i));
+		PCU_ASSERT_EQUAL_MESSAGE(256, pc, PCU_format("i=%d",i));
+		
 		bfi_ret = brainfuck_delete(bfi);
 		
 		PCU_ASSERT_EQUAL_MESSAGE(BFI_ERROR, bfi_ret, PCU_format("i=%d",i));
@@ -481,12 +496,12 @@ void test_Step(void)
 	BFI bfi;
 	int bfi_ret;
 	int i;
+	int pc;
 	
 	static const BFI_TEST_DATA programs[] = {
 		BFI_TEST(program3,256),
 		BFI_TEST(program4,256),
 		BFI_TEST(program5,256),
-		BFI_TEST(program6,256),
 	};
 	int program_num = sizeof(programs)/sizeof(programs[0]);
 	
@@ -495,9 +510,21 @@ void test_Step(void)
 		
 		PCU_ASSERT_PTR_NOT_EQUAL_MESSAGE(NULL, bfi, PCU_format("i=%d",i));
 		
+		pc = 256;
+		
+		bfi_ret = brainfuck_get_programcounter(bfi, &pc);
+		
+		PCU_ASSERT_EQUAL_MESSAGE(0, pc, PCU_format("i=%d",i));
+		
 		bfi_ret = brainfuck_step(bfi);
 		
 		PCU_ASSERT_EQUAL_MESSAGE(BFI_SUCCESS, bfi_ret, PCU_format("i=%d",i));
+		
+		pc = 0;
+		
+		bfi_ret = brainfuck_get_programcounter(bfi, &pc);
+		
+		PCU_ASSERT_EQUAL_MESSAGE(1, pc, PCU_format("i=%d",i));
 		
 		bfi_ret = brainfuck_delete(bfi);
 		
