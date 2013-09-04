@@ -97,6 +97,18 @@ int brainfuck_step(BFI bfi)
 							pc++;
 							bfi->pc = pc;
 							break;
+						case '>':
+							tc++;
+							bfi->tc = tc;
+							pc++;
+							bfi->pc = pc;
+							break;
+						case '<':
+							tc--;
+							bfi->tc = tc;
+							pc++;
+							bfi->pc = pc;
+							break;
 						default:
 							pc++;
 							bfi->pc = pc;
@@ -122,7 +134,6 @@ int brainfuck_get_programcounter(BFI bfi, int *ptr_programcounter)
 	return Ret;
 }
 
-#if 0
 int brainfuck_get_tapecounter(BFI bfi, int *ptr_tapecounter)
 {
 	int Ret = BFI_ERROR;
@@ -134,7 +145,6 @@ int brainfuck_get_tapecounter(BFI bfi, int *ptr_tapecounter)
 	
 	return Ret;
 }
-#endif
 
 int brainfuck_set_putchar(BFI bfi, BFI_Putchar func)
 {

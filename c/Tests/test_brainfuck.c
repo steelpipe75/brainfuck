@@ -16,6 +16,7 @@ static const char program2[] = "[]";
 static const char program3[] = "+";
 static const char program4[] = "-";
 static const char program5[] = "*";
+static const char program6[] = "><";
 
 
 static const char err_program1[] = "[";
@@ -491,7 +492,7 @@ void test_Step_error(void)
 	}
 }
 
-void test_Step(void)
+void test_Step_data(void)
 {
 	BFI bfi;
 	int bfi_ret;
@@ -532,11 +533,80 @@ void test_Step(void)
 	}
 }
 
+void test_Step_ptr(void)
+{
+	BFI bfi;
+	int bfi_ret;
+	int i;
+	int pc;
+	int tc;
+	
+	static const BFI_TEST_DATA programs[] = {
+		BFI_TEST(program6,256),
+	};
+	int program_num = sizeof(programs)/sizeof(programs[0]);
+	
+	for(i = 0; i < program_num; i++){
+		bfi = brainfuck_new(programs[i].ptr_program, programs[i].programsize, programs[i].tapesize);
+		
+		PCU_ASSERT_PTR_NOT_EQUAL_MESSAGE(NULL, bfi, PCU_format("i=%d",i));
+		
+		pc = 256;
+		
+		bfi_ret = brainfuck_get_programcounter(bfi, &pc);
+		
+		PCU_ASSERT_EQUAL_MESSAGE(0, pc, PCU_format("i=%d",i));
+		
+		tc = 256;
+		
+		bfi_ret = brainfuck_get_tapecounter(bfi, &tc);
+		
+		PCU_ASSERT_EQUAL_MESSAGE(0, tc, PCU_format("i=%d",i));
+		
+		bfi_ret = brainfuck_step(bfi);
+		
+		PCU_ASSERT_EQUAL_MESSAGE(BFI_SUCCESS, bfi_ret, PCU_format("i=%d",i));
+		
+		pc = 0;
+		
+		bfi_ret = brainfuck_get_programcounter(bfi, &pc);
+		
+		PCU_ASSERT_EQUAL_MESSAGE(1, pc, PCU_format("i=%d",i));
+		
+		tc = 0;
+		
+		bfi_ret = brainfuck_get_tapecounter(bfi, &tc);
+		
+		PCU_ASSERT_EQUAL_MESSAGE(1, tc, PCU_format("i=%d",i));
+		
+		bfi_ret = brainfuck_step(bfi);
+		
+		PCU_ASSERT_EQUAL_MESSAGE(BFI_SUCCESS, bfi_ret, PCU_format("i=%d",i));
+		
+		pc = 0;
+		
+		bfi_ret = brainfuck_get_programcounter(bfi, &pc);
+		
+		PCU_ASSERT_EQUAL_MESSAGE(2, pc, PCU_format("i=%d",i));
+		
+		tc = 256;
+		
+		bfi_ret = brainfuck_get_tapecounter(bfi, &tc);
+		
+		PCU_ASSERT_EQUAL_MESSAGE(0, tc, PCU_format("i=%d",i));
+		
+		bfi_ret = brainfuck_delete(bfi);
+		
+		PCU_ASSERT_EQUAL_MESSAGE(BFI_SUCCESS, bfi_ret, PCU_format("i=%d",i));
+	}
+}
+
 PCU_Suite *StepTest_suite(void)
 {
 	static PCU_Test tests[] = {
 		PCU_TEST(test_Step_error),
-		PCU_TEST(test_Step),
+		PCU_TEST(test_Step_data),
+		PCU_TEST(test_Step_ptr),
 	};
 	static PCU_Suite suite = { "StepTest", tests, ( sizeof(tests) / sizeof(tests[0]) ) };
 	return &suite;
