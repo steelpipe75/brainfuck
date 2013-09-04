@@ -6,7 +6,6 @@ typedef int(*BFI_Putchar)(int c);
 typedef int(*BFI_Getchar)(void);
 
 #define BFI_SUCCESS		(0)
-#define BFI_SUCCESS_END	(1)
 #define BFI_ERROR	(-1)
 
 extern BFI brainfuck_new(const char *ptr_program, int programsize, int tapesize);
